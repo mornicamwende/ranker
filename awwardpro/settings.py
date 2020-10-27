@@ -136,7 +136,7 @@ LOGIN_REDIRECT_URL= 'Awward-Home'
 
 LOGIN_URL= 'login'
 
-#ratings    q   
+#ratings      
 
 STAR_RATINGS_RERATE = False
 STAR_RATINGS_RANGE = 5
