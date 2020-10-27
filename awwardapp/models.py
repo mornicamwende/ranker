@@ -19,9 +19,11 @@ class post(models.Model):
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk': self.pk})
 
-class rating(models.Model):
-    usability, design, content = models.IntegerField(), models.IntegerField(), models.IntegerField()
-    CREATED_AT = models.DateTimeField(auto_now_add=True)
-    UPDATED_AT= models.DateTimeField(auto_now_add=True)
-    post = models.ForeignKey(post, on_delete=models.CASCADE)
+
+
+# class Rating(models.Model):
+#     usability, design, content = models.IntegerField(), models.IntegerField(), models.IntegerField()
+#     CREATED_AT = models.DateTimeField(auto_now_add=True)
+#     UPDATED_AT= models.DateTimeField(auto_now=True)
+#     post = models.ForeignKey('post',on_delete=models.CASCADE, related_name="rating")
 
