@@ -1,0 +1,40 @@
+{% extends "awwardapp/base.html" %}
+{% load static %}
+{% load ratings %}
+
+{% block content %}
+{{block.super}}
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="container-fluid">
+    <div class="row">
+    <div style="height: 500px; width: 100%;  background-image: url('{{ random_post.image.url}}');">
+    </div>
+    {% for post in posts %}
+    <div class="col-md-6 mb-4">
+
+        <article class="media content-section m-3">
+            <img class="rounded-circle article-img" src="{{ post.owner.profile.image.url }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ post.owner }}</a>
+                    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+                </div>
+                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">title:{{ post.title }}</a></h2>
+                <p class="article-content"><strong>Description:</strong>{{ post.caption }}</p>
+                <p class="mr-2" ><strong>Owner:</strong>{{ post.owner }}</p>
+                <img height="100%" width="100%" src="{{ post.image.url}}">
+                <p><strong>Ratings</strong>{% ratings post %}</p>
+                <button class="btn btn-info mb-4" ><a href="{% url 'post-detail' post.pk %}">Review project</a></button> 
+                <button class="btn btn-info mb-4" ><a href="{{ post.url }}">visit site</a></button> 
+
+            </div>
+            </div>
+        </article>
+    {% endfor %}
+    </div>
+</div>
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+
+{% endblock %}
