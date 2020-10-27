@@ -3,18 +3,25 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import loader
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import post, rating
+# from geelweb.django.ratings.views import RateView
+from .models import post 
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
-
+import random
 
 
 
 def home(request):
-    context = {
-        'posts': post.objects.all()
-    }
-    return render(request, 'awwardapp/home.html', context)
+    try:
+        posts= post.objects.all()
+        posts = posts[::-1]
+        one_post = random.randint(0, len(posts)-1)
+        random_post= posts[one_post]
+        print(random_post)
+    except post.DoesNotExist:
+        posts = None
+    
+    return render(request, 'awwardapp/home.html', locals())
 
 class PostListView(ListView):
     model = post
@@ -27,7 +34,7 @@ class PostDetailView(DetailView):
    
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = post
-    fields = ['title', 'caption', 'image', 'url', 'usability', 'design', 'content']
+    fields = ['title', 'caption', 'image', 'owner', 'url']
     
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -64,4 +71,11 @@ def about(request):
     return render(request, 'awwardapp/about.html', {'title': 'About'})
 
 
+# class PostRateView(LoginRequiredMixin, RateView):
+#     model = Rating
+#     fields = ['usability', 'design', 'content']
+    
+#     def form_valid(self, form):
+#         form.instance.owner = self.request.user
+#         return super().form_valid(form)
 
